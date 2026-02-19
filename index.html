@@ -1,0 +1,1987 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+        />
+        <title>Where Did Your Money Go? — India's Corruption Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --bg: #06060a;
+                --s1: #0d0d14;
+                --s2: #14141f;
+                --s3: #1c1c2e;
+                --b1: #252540;
+                --b2: #35355a;
+                --t1: #f0eff8;
+                --t2: #aaa8c8;
+                --t3: #6e6c8a;
+                --red: #ff4040;
+                --red-d: rgba(255, 64, 64, 0.08);
+                --green: #2dd4a0;
+                --green-d: rgba(45, 212, 160, 0.08);
+                --amber: #f0b429;
+                --amber-d: rgba(240, 180, 41, 0.08);
+                --blue: #5c9aff;
+                --blue-d: rgba(92, 154, 255, 0.08);
+                --saffron: #ff6b2b;
+                --saffron-d: rgba(255, 107, 43, 0.08);
+            }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                background: var(--bg);
+                color: var(--t1);
+                font-family: "Outfit", sans-serif;
+                -webkit-font-smoothing: antialiased;
+                line-height: 1.65;
+                overflow-x: hidden;
+                width: 100%;
+                max-width: 100vw;
+            }
+
+            .page {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            .w {
+                max-width: 860px;
+                margin: 0 auto;
+                padding: 0 16px;
+                width: 100%;
+            }
+            .mono {
+                font-family: "IBM Plex Mono", monospace;
+            }
+            .serif {
+                font-family: "Instrument Serif", serif;
+            }
+
+            @keyframes up {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes pulse {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.35;
+                }
+            }
+
+            /* ===== HERO ===== */
+            .hero {
+                padding: 56px 0 16px;
+                text-align: center;
+                position: relative;
+            }
+            .hero::before {
+                content: "";
+                position: absolute;
+                top: -80px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: min(600px, 100%);
+                height: 400px;
+                background: radial-gradient(
+                    ellipse,
+                    rgba(255, 107, 43, 0.05),
+                    transparent 65%
+                );
+                pointer-events: none;
+            }
+            .flag {
+                width: 48px;
+                height: 3px;
+                border-radius: 2px;
+                margin: 0 auto 24px;
+                background: linear-gradient(
+                    90deg,
+                    #ff6b2b 33%,
+                    #fff 33% 66%,
+                    #138808 66%
+                );
+            }
+            .hero-hi {
+                font-family: "Noto Sans Devanagari", sans-serif;
+                font-size: 12px;
+                color: var(--saffron);
+                opacity: 0.5;
+                margin-bottom: 6px;
+            }
+            .hero-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 5px 12px;
+                border-radius: 100px;
+                font-size: 13px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1.6px;
+                border: 1px solid rgba(255, 64, 64, 0.2);
+                background: var(--red-d);
+                color: var(--red);
+                margin-bottom: 20px;
+            }
+            .hero-tag .dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: var(--red);
+                animation: pulse 2s ease infinite;
+            }
+            h1 {
+                font-family: "Instrument Serif", serif;
+                font-size: clamp(28px, 6vw, 52px);
+                font-weight: 400;
+                line-height: 1.12;
+                margin-bottom: 10px;
+            }
+            h1 em {
+                font-style: italic;
+                color: var(--red);
+            }
+            .hero-sub {
+                font-size: 14px;
+                color: var(--t3);
+                max-width: 440px;
+                margin: 0 auto;
+                line-height: 1.7;
+            }
+
+            /* ===== FORM ===== */
+            .form {
+                background: var(--s1);
+                border: 1px solid var(--b1);
+                border-radius: 14px;
+                padding: 20px;
+                margin: 28px 0 40px;
+                position: relative;
+                overflow: hidden;
+            }
+            .form::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(
+                    90deg,
+                    var(--saffron),
+                    var(--amber),
+                    var(--green)
+                );
+            }
+            .form-t {
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 12px;
+                color: var(--t2);
+            }
+            .fg {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+            .f {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+            .f label {
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: var(--t3);
+            }
+            .f select,
+            .f input {
+                padding: 10px;
+                background: var(--s2);
+                border: 1px solid var(--b1);
+                border-radius: 7px;
+                color: var(--t1);
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 13px;
+                outline: none;
+                transition: border 0.2s;
+                -webkit-appearance: none;
+                appearance: none;
+                width: 100%;
+                min-width: 0;
+            }
+            .f select {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='%236e6c8a'%3E%3Cpath d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                padding-right: 28px;
+            }
+            .f select:focus,
+            .f input:focus {
+                border-color: var(--saffron);
+            }
+            .btn {
+                width: 100%;
+                padding: 12px;
+                background: var(--saffron);
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                font-family: "Outfit";
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.25s;
+            }
+            .btn:hover {
+                box-shadow: 0 6px 20px rgba(255, 107, 43, 0.25);
+            }
+
+            /* ===== RESULTS ===== */
+            #R {
+                display: none;
+            }
+            #R.show {
+                display: block;
+                animation: up 0.5s ease both;
+            }
+
+            /* Bigcard */
+            .bigcard {
+                border: 1px solid rgba(255, 64, 64, 0.15);
+                border-radius: 16px;
+                padding: 32px 20px;
+                text-align: center;
+                margin-bottom: 36px;
+                position: relative;
+                overflow: hidden;
+                background: linear-gradient(
+                    165deg,
+                    rgba(255, 64, 64, 0.03),
+                    var(--s1) 45%,
+                    rgba(45, 212, 160, 0.02)
+                );
+            }
+            .bigcard::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(
+                    90deg,
+                    var(--red),
+                    var(--saffron),
+                    var(--amber)
+                );
+            }
+            .bc-eye {
+                font-size: 13px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: var(--t3);
+                margin-bottom: 12px;
+            }
+            .bc-big {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: clamp(44px, 10vw, 76px);
+                font-weight: 700;
+                color: var(--red);
+                line-height: 1;
+            }
+            .bc-unit {
+                font-family: "Instrument Serif", serif;
+                font-size: clamp(16px, 3vw, 22px);
+                color: var(--t2);
+                margin: 2px 0 12px;
+            }
+            .bc-desc {
+                font-size: 14px;
+                color: var(--t3);
+                max-width: 480px;
+                margin: 0 auto 20px;
+                line-height: 1.75;
+            }
+            .bc-desc strong {
+                color: var(--red);
+            }
+
+            .stat-row {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 6px;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            .stat {
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid var(--b1);
+                border-radius: 7px;
+                padding: 10px 6px;
+                text-align: center;
+            }
+            .stat .n {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 13px;
+                font-weight: 700;
+            }
+            .stat .l {
+                font-size: 10px;
+                color: var(--t3);
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                margin-top: 1px;
+            }
+            .stat.r .n {
+                color: var(--red);
+            }
+            .stat.g .n {
+                color: var(--green);
+            }
+            .stat.b .n {
+                color: var(--blue);
+            }
+            .stat.p .n {
+                color: #a07cff;
+            }
+            .stat.a .n {
+                color: var(--saffron);
+            }
+
+            /* Share card */
+            .share-strip {
+                display: flex;
+                gap: 8px;
+                justify-content: center;
+                margin-top: 16px;
+                flex-wrap: wrap;
+            }
+            .share-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                padding: 8px 14px;
+                border-radius: 7px;
+                border: 1px solid var(--b1);
+                background: rgba(255, 255, 255, 0.02);
+                color: var(--t2);
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-family: "Outfit", sans-serif;
+                text-decoration: none;
+            }
+            .share-btn:hover {
+                border-color: var(--saffron);
+                color: var(--t1);
+                background: var(--saffron-d);
+            }
+            .share-btn.primary {
+                background: var(--saffron);
+                border-color: var(--saffron);
+                color: #fff;
+            }
+            .share-btn.primary:hover {
+                box-shadow: 0 4px 16px rgba(255, 107, 43, 0.3);
+            }
+
+            /* Sections */
+            .sec {
+                margin-bottom: 40px;
+            }
+            .sec-bar {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                margin-bottom: 3px;
+            }
+            .sec-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+            .sec-dot.red {
+                background: var(--red);
+            }
+            .sec-dot.green {
+                background: var(--green);
+            }
+            .sec-dot.amber {
+                background: var(--amber);
+            }
+            .sec-dot.blue {
+                background: var(--blue);
+            }
+            .sec-tag {
+                font-size: 13px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                color: var(--t3);
+            }
+            .sec-h {
+                font-family: "Instrument Serif", serif;
+                font-size: 24px;
+                margin-bottom: 2px;
+            }
+            .sec-p {
+                font-size: 13px;
+                color: var(--t3);
+                margin-bottom: 14px;
+                max-width: 520px;
+                line-height: 1.6;
+            }
+
+            /* Alert cards */
+            .two {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            @media (max-width: 600px) {
+                .two {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .alert {
+                background: var(--s1);
+                border: 1px solid var(--b1);
+                border-radius: 10px;
+                padding: 16px;
+                position: relative;
+                overflow: hidden;
+            }
+            .alert::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+            }
+            .alert.red::before {
+                background: var(--red);
+            }
+            .alert.green::before {
+                background: var(--green);
+            }
+            .alert-t {
+                font-weight: 700;
+                font-size: 12px;
+                margin-bottom: 2px;
+                line-height: 1.3;
+            }
+            .alert-stat {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 22px;
+                font-weight: 700;
+                margin-bottom: 3px;
+            }
+            .alert.red .alert-stat {
+                color: var(--red);
+            }
+            .alert.green .alert-stat {
+                color: var(--green);
+            }
+            .alert-d {
+                font-size: 13px;
+                color: var(--t3);
+                line-height: 1.5;
+            }
+            .alert-src {
+                font-size: 11px;
+                color: var(--t3);
+                opacity: 0.5;
+                margin-top: 5px;
+                font-style: italic;
+            }
+
+            /* State cards */
+            .tabs {
+                display: flex;
+                gap: 5px;
+                margin-bottom: 14px;
+                flex-wrap: wrap;
+            }
+            .tab {
+                padding: 6px 12px;
+                border-radius: 6px;
+                border: 1px solid var(--b1);
+                background: transparent;
+                color: var(--t3);
+                font-family: "Outfit", sans-serif;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .tab:hover {
+                border-color: var(--b2);
+                color: var(--t2);
+            }
+            .tab.active {
+                background: var(--saffron);
+                border-color: var(--saffron);
+                color: #fff;
+            }
+
+            .sg {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 10px;
+            }
+            @media (max-width: 520px) {
+                .sg {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .sc {
+                background: var(--s1);
+                border: 1px solid var(--b1);
+                border-radius: 10px;
+                padding: 16px;
+                position: relative;
+                overflow: hidden;
+            }
+            .sc::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+            }
+            .sc.good::before {
+                background: var(--green);
+            }
+            .sc.mid::before {
+                background: var(--amber);
+            }
+            .sc.bad::before {
+                background: var(--red);
+            }
+            .sc-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 4px;
+            }
+            .sc-name {
+                font-weight: 700;
+                font-size: 13px;
+            }
+            .sc-badge {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 11px;
+                padding: 2px 5px;
+                border-radius: 3px;
+                font-weight: 600;
+                background: rgba(255, 255, 255, 0.04);
+                color: var(--t3);
+            }
+            .you-tag {
+                display: inline-block;
+                font-size: 10px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                padding: 2px 4px;
+                border-radius: 3px;
+                background: var(--saffron-d);
+                color: var(--saffron);
+                margin-left: 4px;
+                border: 1px solid rgba(255, 107, 43, 0.2);
+            }
+
+            .sc-net {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 24px;
+                font-weight: 700;
+                line-height: 1.1;
+            }
+            .sc-net-l {
+                font-size: 13px;
+                color: var(--t3);
+                margin-bottom: 8px;
+            }
+
+            .tri {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 3px;
+                margin-bottom: 8px;
+            }
+            .tri-c {
+                background: rgba(255, 255, 255, 0.02);
+                border-radius: 5px;
+                padding: 6px 3px;
+                text-align: center;
+            }
+            .tri-n {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 12px;
+                font-weight: 600;
+            }
+            .tri-l {
+                font-size: 13px;
+                color: var(--t3);
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                margin-top: 1px;
+            }
+
+            .leak-bar {
+                display: flex;
+                height: 5px;
+                border-radius: 3px;
+                overflow: hidden;
+                margin-bottom: 2px;
+            }
+            .leak-bar .kept {
+                background: var(--green);
+            }
+            .leak-bar .lost {
+                background: var(--red);
+            }
+            .leak-legend {
+                display: flex;
+                justify-content: space-between;
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+
+            .sc-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 3px 0;
+                border-top: 1px solid rgba(37, 37, 64, 0.5);
+                font-size: 12px;
+            }
+            .sc-rl {
+                color: var(--t3);
+            }
+            .sc-rv {
+                font-family: "IBM Plex Mono", monospace;
+                font-weight: 600;
+            }
+            .sc-rv.g {
+                color: var(--green);
+            }
+            .sc-rv.y {
+                color: var(--amber);
+            }
+            .sc-rv.r {
+                color: var(--red);
+            }
+
+            /* CPI Chart */
+            .chart-c {
+                background: var(--s1);
+                border: 1px solid var(--b1);
+                border-radius: 12px;
+                padding: 18px;
+                margin-bottom: 10px;
+                overflow: hidden;
+            }
+            .chart-t {
+                font-weight: 700;
+                font-size: 16px;
+            }
+            .chart-s {
+                font-size: 13px;
+                color: var(--t3);
+                margin-bottom: 14px;
+            }
+            .ch-w {
+                position: relative;
+                height: 160px;
+                display: flex;
+                align-items: flex-end;
+                gap: 0;
+                padding-bottom: 20px;
+                border-bottom: 1px solid var(--b1);
+            }
+            .ch-bg {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-end;
+                position: relative;
+                height: 100%;
+                padding-bottom: 20px;
+            }
+            .ch-b {
+                width: clamp(12px, 3vw, 22px);
+                border-radius: 3px 3px 0 0;
+                cursor: default;
+                position: relative;
+                min-height: 2px;
+            }
+            .ch-b:hover {
+                filter: brightness(1.3);
+            }
+            .ch-b .tip {
+                position: absolute;
+                top: -14px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 12px;
+                font-weight: 600;
+                white-space: nowrap;
+                opacity: 0;
+                transition: opacity 0.2s;
+            }
+            .ch-b:hover .tip {
+                opacity: 1;
+            }
+            .ch-l {
+                position: absolute;
+                bottom: -14px;
+                font-size: 10px;
+                color: var(--t3);
+            }
+            .ch-leg {
+                display: flex;
+                gap: 10px;
+                margin-top: 16px;
+                flex-wrap: wrap;
+            }
+            .ch-li {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 11px;
+                color: var(--t3);
+            }
+            .ch-ld {
+                width: 5px;
+                height: 5px;
+                border-radius: 2px;
+            }
+
+            /* CTA */
+            .cta {
+                border: 1px solid rgba(45, 212, 160, 0.12);
+                border-radius: 14px;
+                padding: 28px 20px;
+                text-align: center;
+                margin-bottom: 40px;
+                background: linear-gradient(
+                    140deg,
+                    rgba(45, 212, 160, 0.03),
+                    rgba(92, 154, 255, 0.02)
+                );
+            }
+            .cta-big {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: clamp(24px, 5vw, 40px);
+                font-weight: 700;
+                color: var(--green);
+                line-height: 1;
+            }
+            .cta-h {
+                font-family: "Instrument Serif", serif;
+                font-size: 16px;
+                margin: 3px 0 6px;
+            }
+            .cta-p {
+                font-size: 13px;
+                color: var(--t3);
+                max-width: 440px;
+                margin: 0 auto 14px;
+                line-height: 1.65;
+            }
+            .chips {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+                justify-content: center;
+            }
+            .chip {
+                padding: 6px 10px;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid var(--b1);
+                border-radius: 5px;
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--t2);
+                transition: all 0.2s;
+                cursor: default;
+            }
+            .chip:hover {
+                border-color: var(--green);
+                color: var(--t1);
+                background: var(--green-d);
+            }
+
+            /* Movement */
+            .movement {
+                border-top: 1px solid var(--b1);
+                padding: 40px 0;
+                text-align: center;
+                position: relative;
+            }
+            .movement::before {
+                content: "";
+                position: absolute;
+                top: -1px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 160px;
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--saffron),
+                    transparent
+                );
+            }
+            .mv-h {
+                font-family: "Instrument Serif", serif;
+                font-size: clamp(20px, 4vw, 30px);
+                margin-bottom: 6px;
+                line-height: 1.2;
+            }
+            .mv-h em {
+                font-style: italic;
+                color: var(--saffron);
+            }
+            .mv-p {
+                font-size: 14px;
+                color: var(--t3);
+                max-width: 500px;
+                margin: 0 auto 8px;
+                line-height: 1.7;
+            }
+            .mv-box {
+                display: inline-block;
+                padding: 12px 18px;
+                border-radius: 8px;
+                background: var(--s1);
+                border: 1px solid var(--b1);
+                font-size: 13px;
+                color: var(--t2);
+                margin: 12px auto;
+                line-height: 1.6;
+                max-width: 460px;
+                text-align: left;
+            }
+            .mv-box strong {
+                color: var(--t1);
+            }
+            .mv-year {
+                font-family: "IBM Plex Mono", monospace;
+                font-size: clamp(36px, 6vw, 56px);
+                font-weight: 700;
+                background: linear-gradient(
+                    135deg,
+                    var(--saffron),
+                    var(--amber),
+                    var(--green)
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin: 20px 0 4px;
+            }
+            .mv-goal {
+                font-family: "Instrument Serif", serif;
+                font-size: 18px;
+                margin-bottom: 4px;
+            }
+            .mv-sm {
+                font-size: 14px;
+                color: var(--t3);
+                margin-bottom: 16px;
+                max-width: 480px;
+                margin-left: auto;
+                margin-right: auto;
+                line-height: 1.65;
+            }
+            .country-chips {
+                display: flex;
+                gap: 6px;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-top: 14px;
+            }
+            .cc {
+                padding: 6px 10px;
+                border-radius: 5px;
+                border: 1px solid var(--b1);
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--t3);
+                cursor: default;
+                transition: all 0.2s;
+            }
+            .cc:hover {
+                border-color: var(--saffron);
+                color: var(--saffron);
+            }
+            .cc.done {
+                border-color: var(--saffron);
+                color: var(--saffron);
+                background: var(--saffron-d);
+            }
+
+            /* Sources */
+            .sources {
+                border-top: 1px solid var(--b1);
+                padding: 32px 0 16px;
+            }
+            .src-h {
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1.2px;
+                color: var(--t3);
+                margin-bottom: 12px;
+                text-align: center;
+            }
+            .src-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 6px;
+                margin-bottom: 16px;
+            }
+            @media (max-width: 480px) {
+                .src-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .src {
+                padding: 8px 10px;
+                background: var(--s1);
+                border: 1px solid var(--b1);
+                border-radius: 6px;
+                font-size: 13px;
+                display: flex;
+                gap: 6px;
+                align-items: flex-start;
+            }
+            .src-icon {
+                font-size: 12px;
+                flex-shrink: 0;
+                margin-top: 1px;
+            }
+            .src-name {
+                font-weight: 700;
+                color: var(--t2);
+                font-size: 13px;
+            }
+            .src-url {
+                color: var(--t3);
+                font-size: 12px;
+                word-break: break-all;
+            }
+            .src-url a {
+                color: var(--blue);
+                text-decoration: none;
+            }
+            .src-url a:hover {
+                text-decoration: underline;
+            }
+
+            .footer {
+                text-align: center;
+                padding: 16px 0 40px;
+                font-size: 11px;
+                color: var(--t3);
+                line-height: 1.8;
+            }
+            .footer a {
+                color: var(--saffron);
+                text-decoration: none;
+            }
+
+            /* Share screenshot card (hidden, used for generating) */
+            .share-card {
+                position: fixed;
+                left: -9999px;
+                top: 0;
+                width: 600px;
+                padding: 40px;
+                background: #06060a;
+                border-radius: 0;
+                z-index: -1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <div class="w">
+                <!-- HERO -->
+                <div class="hero">
+                    <div class="flag"></div>
+                    <div class="hero-hi">भ्रष्टाचार दिखाओ · बदलाव लाओ</div>
+                    <div class="hero-tag">
+                        <span class="dot"></span>India Corruption Data
+                    </div>
+                    <h1>
+                        How Much of Your Life<br />Did <em>Corruption</em> Eat?
+                    </h1>
+                    <p class="hero-sub">
+                        You pay taxes. That's fine — it builds the country. But
+                        some of that money disappears. Here's the data.
+                    </p>
+                </div>
+
+                <!-- FORM -->
+                <div class="form">
+                    <div class="form-t">Enter your details</div>
+                    <div class="fg">
+                        <div class="f">
+                            <label>State</label
+                            ><select id="iS"></select>
+                        </div>
+                        <div class="f">
+                            <label>Monthly Income (₹)</label
+                            ><input
+                                type="number"
+                                id="iI"
+                                value="50000"
+                                min="5000"
+                                step="1000"
+                            />
+                        </div>
+                        <div class="f">
+                            <label>Monthly Spend (₹)</label
+                            ><input
+                                type="number"
+                                id="iP"
+                                value="35000"
+                                min="2000"
+                                step="1000"
+                            />
+                        </div>
+                        <div class="f">
+                            <label>Your Age</label
+                            ><input
+                                type="number"
+                                id="iA"
+                                value="28"
+                                min="18"
+                                max="70"
+                            />
+                        </div>
+                    </div>
+                    <button class="btn" onclick="calc()">
+                        Show Me the Damage →
+                    </button>
+                </div>
+
+                <!-- RESULTS -->
+                <div id="R">
+                    <div class="bigcard" id="big"></div>
+
+                    <div class="sec">
+                        <div class="sec-bar">
+                            <div class="sec-dot red"></div>
+                            <div class="sec-tag">Getting Worse</div>
+                        </div>
+                        <div class="sec-h">
+                            What's still broken — and what's getting worse
+                        </div>
+                        <div class="sec-p">
+                            These are CAG audit findings tabled in Parliament,
+                            Dec 2025. Not opinions.
+                        </div>
+                        <div class="two" id="worse"></div>
+                    </div>
+
+                    <div class="sec">
+                        <div class="sec-bar">
+                            <div class="sec-dot green"></div>
+                            <div class="sec-tag">Getting Better</div>
+                        </div>
+                        <div class="sec-h">
+                            What's actually improving — with real numbers
+                        </div>
+                        <div class="sec-p">
+                            Corruption isn't destiny. India has made measurable
+                            progress. Here's the proof.
+                        </div>
+                        <div class="two" id="better"></div>
+                    </div>
+
+                    <div class="sec">
+                        <div class="sec-bar">
+                            <div class="sec-dot amber"></div>
+                            <div class="sec-tag">Where Your Money Lands</div>
+                        </div>
+                        <div class="sec-h">
+                            Your state, the biggest takers, and the value
+                            creators
+                        </div>
+                        <div class="sec-p">
+                            Some states create ₹5+ of value per ₹1 received.
+                            Others destroy it.
+                        </div>
+                        <div class="tabs" id="stTabs"></div>
+                        <div class="sg" id="sg"></div>
+                        <div
+                            style="
+                                margin-top: 8px;
+                                font-size: 12px;
+                                color: var(--t3);
+                                font-style: italic;
+                                line-height: 1.5;
+                            "
+                        >
+                            Value Multiplier = State GSDP ÷ Central transfers.
+                            Sources: MoSPI 2023-24, Finance Commission.
+                        </div>
+                    </div>
+
+                    <div class="sec">
+                        <div class="sec-bar">
+                            <div class="sec-dot blue"></div>
+                            <div class="sec-tag">The Trend</div>
+                        </div>
+                        <div class="sec-h">India's CPI Score: 2012–2025</div>
+                        <div class="sec-p">
+                            0 = highly corrupt, 100 = very clean. India:
+                            improving, but below global avg.
+                        </div>
+                        <div class="chart-c">
+                            <div class="chart-t">
+                                Corruption Perceptions Index — India
+                            </div>
+                            <div class="chart-s">
+                                Peaked at 41 (2018), dipped to 38 (2024),
+                                recovered to 39 (2025).
+                            </div>
+                            <div class="ch-w" id="cpi"></div>
+                            <div class="ch-leg">
+                                <div class="ch-li">
+                                    <div
+                                        class="ch-ld"
+                                        style="background: var(--blue)"
+                                    ></div>
+                                    India
+                                </div>
+                                <div class="ch-li">
+                                    <div
+                                        class="ch-ld"
+                                        style="
+                                            background: rgba(
+                                                255,
+                                                255,
+                                                255,
+                                                0.08
+                                            );
+                                        "
+                                    ></div>
+                                    Global Avg ~43
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta" id="cta"></div>
+
+                    <!-- MOVEMENT -->
+                    <div class="movement">
+                        <div class="flag" style="margin-bottom: 20px"></div>
+                        <div class="mv-year">2030</div>
+                        <div class="mv-goal">
+                            Make corruption satisfyingly visible.
+                        </div>
+                        <p class="mv-sm">
+                            This dashboard was built by talking to an AI. No dev
+                            team, no funding, no months of work. Just public
+                            data and a conversation. AI can find every ghost
+                            beneficiary, flag every inflated contract, and audit
+                            every transaction. The technology exists. What's
+                            missing is pressure.
+                        </p>
+
+                        <div class="mv-box">
+                            <strong
+                                >⚖️ This is about governance, not
+                                parties.</strong
+                            >
+                            No party, no ideology. Every government has wins and
+                            failures — we show both.<br />
+                            Every number is from a government audit (CAG), a
+                            constitutional body (Finance Commission), or an
+                            international index (Transparency International).<br /><br />
+                            <strong>🌍 This is an open-source movement.</strong>
+                            Anyone can build one for their country. Tell your AI
+                            agent to make a corruption dashboard using your
+                            country's public audit data. The code is free. The
+                            data is public.
+                        </div>
+
+                        <p class="mv-p" style="margin-top: 20px">
+                            <strong style="color: var(--t1)"
+                                >We want every country to have one.</strong
+                            >
+                            Take this code, find your country's audit data, and
+                            show citizens where their money goes. Fork it.
+                            Improve it. Translate it.
+                        </p>
+
+                        <div class="country-chips">
+                            <div class="cc done">🇮🇳 India — Live</div>
+                            <div class="cc">🇧🇷 Brazil</div>
+                            <div class="cc">🇳🇬 Nigeria</div>
+                            <div class="cc">🇮🇩 Indonesia</div>
+                            <div class="cc">🇵🇭 Philippines</div>
+                            <div class="cc">🇲🇽 Mexico</div>
+                            <div class="cc">🇿🇦 South Africa</div>
+                            <div class="cc">🇰🇪 Kenya</div>
+                            <div class="cc">🇧🇩 Bangladesh</div>
+                        </div>
+
+                        <p
+                            style="
+                                font-size: 12px;
+                                color: var(--t3);
+                                margin-top: 16px;
+                                font-style: italic;
+                            "
+                        >
+                            The code is free. The data is public. The anger is
+                            universal.
+                        </p>
+                    </div>
+
+                    <!-- SOURCES -->
+                    <div class="sources">
+                        <div class="src-h">
+                            All Data Sources — Verify Everything
+                        </div>
+                        <div class="src-grid">
+                            <div class="src">
+                                <div class="src-icon">🏛️</div>
+                                <div>
+                                    <div class="src-name">CAG of India</div>
+                                    <div class="src-url">
+                                        Audit Reports Dec 2025 — GST, DBT,
+                                        PMKVY, PMAY, PMJAY ·
+                                        <a
+                                            href="https://cag.gov.in"
+                                            target="_blank"
+                                            >cag.gov.in</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">🌐</div>
+                                <div>
+                                    <div class="src-name">
+                                        Transparency International
+                                    </div>
+                                    <div class="src-url">
+                                        CPI 2012–2025 ·
+                                        <a
+                                            href="https://www.transparency.org/cpi"
+                                            target="_blank"
+                                            >transparency.org/cpi</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">📊</div>
+                                <div>
+                                    <div class="src-name">
+                                        Finance Commission
+                                    </div>
+                                    <div class="src-url">
+                                        15th & 16th FC devolution shares ·
+                                        <a
+                                            href="https://fincomindia.nic.in"
+                                            target="_blank"
+                                            >fincomindia.nic.in</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">💸</div>
+                                <div>
+                                    <div class="src-name">DBT Bharat / MoF</div>
+                                    <div class="src-url">
+                                        DBT savings, beneficiary data ·
+                                        <a
+                                            href="https://dbtbharat.gov.in"
+                                            target="_blank"
+                                            >dbtbharat.gov.in</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">📈</div>
+                                <div>
+                                    <div class="src-name">
+                                        BlueKraft Assessment 2024
+                                    </div>
+                                    <div class="src-url">
+                                        Welfare Efficiency Index ·
+                                        <a
+                                            href="https://dbtbharat.gov.in"
+                                            target="_blank"
+                                            >dbtbharat.gov.in</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">🏦</div>
+                                <div>
+                                    <div class="src-name">
+                                        RBI State Finances
+                                    </div>
+                                    <div class="src-url">
+                                        State fiscal, GSDP data ·
+                                        <a
+                                            href="https://rbi.org.in"
+                                            target="_blank"
+                                            >rbi.org.in</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">🌍</div>
+                                <div>
+                                    <div class="src-name">World Bank</div>
+                                    <div class="src-url">
+                                        Service delivery absenteeism surveys ·
+                                        <a
+                                            href="https://worldbank.org"
+                                            target="_blank"
+                                            >worldbank.org</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">📋</div>
+                                <div>
+                                    <div class="src-name">
+                                        MoSPI / NITI Aayog
+                                    </div>
+                                    <div class="src-url">
+                                        GSDP, Good Governance Index ·
+                                        <a
+                                            href="https://mospi.gov.in"
+                                            target="_blank"
+                                            >mospi.gov.in</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="src">
+                                <div class="src-icon">🗳️</div>
+                                <div>
+                                    <div class="src-name">
+                                        PRS Legislative Research
+                                    </div>
+                                    <div class="src-url">
+                                        State budgets, scheme tracking ·
+                                        <a
+                                            href="https://prsindia.org"
+                                            target="_blank"
+                                            >prsindia.org</a
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        Built with public data, AI, and impatience. Nothing
+                        stored. · <a href="#">Fork on GitHub</a><br />
+                        Or make your AI agent build one —
+                        <a
+                            href="https://github.com/anthropics/anthropic-cookbook"
+                            target="_blank"
+                            >use the skill</a
+                        >
+                        to generate a corruption dashboard for any country.<br />
+                        <span
+                            style="
+                                font-family:
+                                    &quot;Noto Sans Devanagari&quot;, sans-serif;
+                            "
+                            >सत्यमेव जयते</span
+                        >
+                        — Truth alone triumphs. · #EndCorruption2030
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const ST = [
+                {
+                    n: "Andhra Pradesh",
+                    c: "AP",
+                    sh: 4.047,
+                    g: "Good",
+                    pds: 10,
+                    abs: 25,
+                    vm: 3.2,
+                    gdpPc: 2.4,
+                },
+                {
+                    n: "Arunachal Pradesh",
+                    c: "AR",
+                    sh: 1.757,
+                    g: "Low",
+                    pds: 35,
+                    abs: 40,
+                    vm: 0.9,
+                    gdpPc: 2.8,
+                },
+                {
+                    n: "Assam",
+                    c: "AS",
+                    sh: 3.128,
+                    g: "Medium",
+                    pds: 25,
+                    abs: 30,
+                    vm: 1.2,
+                    gdpPc: 1.1,
+                },
+                {
+                    n: "Bihar",
+                    c: "BR",
+                    sh: 10.058,
+                    g: "Low",
+                    pds: 42,
+                    abs: 38,
+                    vm: 0.8,
+                    gdpPc: 0.6,
+                },
+                {
+                    n: "Chhattisgarh",
+                    c: "CG",
+                    sh: 3.407,
+                    g: "Medium",
+                    pds: 20,
+                    abs: 28,
+                    vm: 1.5,
+                    gdpPc: 1.3,
+                },
+                {
+                    n: "Goa",
+                    c: "GA",
+                    sh: 0.386,
+                    g: "High",
+                    pds: 5,
+                    abs: 15,
+                    vm: 8.5,
+                    gdpPc: 6.2,
+                },
+                {
+                    n: "Gujarat",
+                    c: "GJ",
+                    sh: 3.478,
+                    g: "High",
+                    pds: 8,
+                    abs: 20,
+                    vm: 5.2,
+                    gdpPc: 2.9,
+                },
+                {
+                    n: "Haryana",
+                    c: "HR",
+                    sh: 1.093,
+                    g: "Medium",
+                    pds: 12,
+                    abs: 22,
+                    vm: 6.8,
+                    gdpPc: 3.2,
+                },
+                {
+                    n: "Himachal Pradesh",
+                    c: "HP",
+                    sh: 0.83,
+                    g: "High",
+                    pds: 5,
+                    abs: 15,
+                    vm: 2.1,
+                    gdpPc: 2.4,
+                },
+                {
+                    n: "Jharkhand",
+                    c: "JH",
+                    sh: 3.307,
+                    g: "Low",
+                    pds: 38,
+                    abs: 35,
+                    vm: 1.1,
+                    gdpPc: 0.9,
+                },
+                {
+                    n: "Karnataka",
+                    c: "KA",
+                    sh: 3.647,
+                    g: "High",
+                    pds: 7,
+                    abs: 18,
+                    vm: 6.4,
+                    gdpPc: 3.5,
+                },
+                {
+                    n: "Kerala",
+                    c: "KL",
+                    sh: 1.925,
+                    g: "High",
+                    pds: 3,
+                    abs: 12,
+                    vm: 4.2,
+                    gdpPc: 2.7,
+                },
+                {
+                    n: "Madhya Pradesh",
+                    c: "MP",
+                    sh: 7.85,
+                    g: "Medium",
+                    pds: 30,
+                    abs: 32,
+                    vm: 1.3,
+                    gdpPc: 1.1,
+                },
+                {
+                    n: "Maharashtra",
+                    c: "MH",
+                    sh: 6.317,
+                    g: "Good",
+                    pds: 12,
+                    abs: 22,
+                    vm: 5.8,
+                    gdpPc: 3.0,
+                },
+                {
+                    n: "Manipur",
+                    c: "MN",
+                    sh: 0.716,
+                    g: "Low",
+                    pds: 30,
+                    abs: 35,
+                    vm: 0.6,
+                    gdpPc: 0.8,
+                },
+                {
+                    n: "Meghalaya",
+                    c: "ML",
+                    sh: 0.767,
+                    g: "Low",
+                    pds: 32,
+                    abs: 38,
+                    vm: 0.7,
+                    gdpPc: 0.9,
+                },
+                {
+                    n: "Mizoram",
+                    c: "MZ",
+                    sh: 0.5,
+                    g: "Medium",
+                    pds: 15,
+                    abs: 22,
+                    vm: 0.5,
+                    gdpPc: 1.8,
+                },
+                {
+                    n: "Nagaland",
+                    c: "NL",
+                    sh: 0.569,
+                    g: "Low",
+                    pds: 40,
+                    abs: 42,
+                    vm: 0.4,
+                    gdpPc: 0.9,
+                },
+                {
+                    n: "Odisha",
+                    c: "OR",
+                    sh: 4.528,
+                    g: "Medium",
+                    pds: 18,
+                    abs: 28,
+                    vm: 1.6,
+                    gdpPc: 1.3,
+                },
+                {
+                    n: "Punjab",
+                    c: "PB",
+                    sh: 1.807,
+                    g: "Medium",
+                    pds: 10,
+                    abs: 18,
+                    vm: 3.8,
+                    gdpPc: 2.2,
+                },
+                {
+                    n: "Rajasthan",
+                    c: "RJ",
+                    sh: 6.026,
+                    g: "Medium",
+                    pds: 25,
+                    abs: 30,
+                    vm: 1.6,
+                    gdpPc: 1.4,
+                },
+                {
+                    n: "Sikkim",
+                    c: "SK",
+                    sh: 0.388,
+                    g: "Good",
+                    pds: 8,
+                    abs: 18,
+                    vm: 1.2,
+                    gdpPc: 4.6,
+                },
+                {
+                    n: "Tamil Nadu",
+                    c: "TN",
+                    sh: 4.079,
+                    g: "High",
+                    pds: 5,
+                    abs: 15,
+                    vm: 5.5,
+                    gdpPc: 3.1,
+                },
+                {
+                    n: "Telangana",
+                    c: "TS",
+                    sh: 2.102,
+                    g: "Good",
+                    pds: 10,
+                    abs: 20,
+                    vm: 5.9,
+                    gdpPc: 3.6,
+                },
+                {
+                    n: "Tripura",
+                    c: "TR",
+                    sh: 0.708,
+                    g: "Medium",
+                    pds: 18,
+                    abs: 25,
+                    vm: 0.8,
+                    gdpPc: 1.2,
+                },
+                {
+                    n: "Uttar Pradesh",
+                    c: "UP",
+                    sh: 17.939,
+                    g: "Low",
+                    pds: 38,
+                    abs: 42,
+                    vm: 1.0,
+                    gdpPc: 0.8,
+                },
+                {
+                    n: "Uttarakhand",
+                    c: "UK",
+                    sh: 1.118,
+                    g: "Medium",
+                    pds: 12,
+                    abs: 22,
+                    vm: 2.8,
+                    gdpPc: 2.5,
+                },
+                {
+                    n: "West Bengal",
+                    c: "WB",
+                    sh: 7.523,
+                    g: "Medium",
+                    pds: 28,
+                    abs: 30,
+                    vm: 1.4,
+                    gdpPc: 1.2,
+                },
+            ];
+            const cpiData = [
+                { y: 2012, s: 36 },
+                { y: 2013, s: 36 },
+                { y: 2014, s: 38 },
+                { y: 2015, s: 38 },
+                { y: 2016, s: 40 },
+                { y: 2017, s: 40 },
+                { y: 2018, s: 41 },
+                { y: 2019, s: 41 },
+                { y: 2020, s: 40 },
+                { y: 2021, s: 40 },
+                { y: 2022, s: 40 },
+                { y: 2023, s: 39 },
+                { y: 2024, s: 38 },
+                { y: 2025, s: 39 },
+            ];
+
+            const sel = document.getElementById("iS");
+            [...ST]
+                .sort((a, b) => a.n.localeCompare(b.n))
+                .forEach((s) => {
+                    const o = document.createElement("option");
+                    o.value = s.c;
+                    o.textContent = s.n;
+                    if (s.c === "MH") o.selected = true;
+                    sel.appendChild(o);
+                });
+
+            function fI(n) {
+                return "₹" + Math.round(n).toLocaleString("en-IN");
+            }
+            function fS(n) {
+                if (n >= 1e7) return "₹" + (n / 1e7).toFixed(1) + " Cr";
+                if (n >= 1e5) return "₹" + (n / 1e5).toFixed(1) + " L";
+                if (n >= 1e3) return "₹" + (n / 1e3).toFixed(0) + "K";
+                return "₹" + Math.round(n);
+            }
+
+            function shareText(text) {
+                if (navigator.share) {
+                    navigator.share({ text }).catch(() => {});
+                } else {
+                    navigator.clipboard?.writeText(text);
+                    alert("Copied to clipboard!");
+                }
+            }
+
+            function calc() {
+                const code = document.getElementById("iS").value;
+                const inc = +document.getElementById("iI").value || 50000;
+                const sp = +document.getElementById("iP").value || 35000;
+                const age = +document.getElementById("iA").value || 28;
+                const us = ST.find((s) => s.c === code);
+
+                const gstR = 0.15;
+                const mGST = (sp * gstR) / (1 + gstR);
+                const yGST = mGST * 12;
+                const sgst = yGST / 2;
+                const cgst = yGST / 2;
+                const redist = cgst * 0.41;
+
+                const ann = inc * 12;
+                let itax = 0;
+                if (ann > 1500000) itax = (ann - 1500000) * 0.3 + 150000;
+                else if (ann > 1200000) itax = (ann - 1200000) * 0.2 + 90000;
+                else if (ann > 1000000) itax = (ann - 1000000) * 0.15 + 60000;
+                else if (ann > 700000) itax = (ann - 700000) * 0.1 + 30000;
+                else if (ann > 400000) itax = (ann - 400000) * 0.05;
+
+                const totalTax = yGST + itax;
+                const corruptionRate = 0.2;
+                const corruptedYr =
+                    redist * corruptionRate +
+                    itax * 0.41 * 0.5 * corruptionRate;
+                const retAge = 60;
+                const yrsLeft = Math.max(retAge - age, 1);
+                const lifetimeCorrupted = corruptedYr * yrsLeft;
+                const workDays = 260;
+                const dailyInc = ann / workDays;
+                const corruptDays = Math.round(corruptedYr / dailyInc);
+                const lifetimeDays = corruptDays * yrsLeft;
+
+                document.getElementById("R").classList.add("show");
+
+                const shareMsg = `Corruption eats ${corruptDays} working days of my life every year. That's ${lifetimeDays} days until I retire.\n\n${fI(corruptedYr)}/yr of my tax just... disappears.\n\nSee your own number → #EndCorruption2030`;
+
+                document.getElementById("big").innerHTML = `
+    <div class="bc-eye">Corruption ate this much of your working life</div>
+    <div class="bc-big">${corruptDays} day${corruptDays !== 1 ? "s" : ""}</div>
+    <div class="bc-unit">every year · ${lifetimeDays} days until you retire</div>
+    <div class="bc-desc">You pay <strong>${fI(totalTax)}/year</strong> in taxes. That builds India. But roughly <strong>${fI(corruptedYr)}/year</strong> of what gets redistributed is lost to corruption, ghost beneficiaries, and leakage. That's ${corruptDays} working days — every year — going into someone's pocket.</div>
+    <div class="stat-row">
+      <div class="stat a"><div class="n">${fI(totalTax)}</div><div class="l">Total Tax/Yr</div></div>
+      <div class="stat b"><div class="n">${fI(yGST)}</div><div class="l">GST/Yr</div></div>
+      <div class="stat p"><div class="n">${fI(itax)}</div><div class="l">Income Tax/Yr</div></div>
+      <div class="stat r"><div class="n">${fI(corruptedYr)}</div><div class="l">Est. Corrupted/Yr</div></div>
+      <div class="stat r"><div class="n">${fS(lifetimeCorrupted)}</div><div class="l">Lifetime Loss</div></div>
+    </div>
+    <div style="margin-top:14px;font-size:11px;color:var(--t3);line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto">⚠️ These are estimates based on a ~20% leakage rate on redistributed funds, derived from CAG audits, World Bank studies, and PDS data. Real leakage varies by scheme and state. The exact number matters less than the direction — your money IS being lost. All sources linked below.</div>
+  `;
+
+                // GETTING WORSE
+                document.getElementById("worse").innerHTML = `
+    <div class="alert red"><div class="alert-t">🏥 Ghost Patients — Ayushman Bharat</div><div class="alert-stat">7.49 Lakh</div><div class="alert-d">Fake beneficiaries under phone number 9999999999. A doctor arrested for unnecessary heart surgeries to siphon funds.</div><div class="alert-src">CAG Audit of AB-PMJAY, Dec 2025</div></div>
+    <div class="alert red"><div class="alert-t">🎓 PMKVY Skill Training Fraud</div><div class="alert-stat">94–95%</div><div class="alert-d">Of audited beneficiaries had fake bank accounts. 1 Cr candidates shared same email/phone.</div><div class="alert-src">CAG Report on PMKVY, Dec 2025</div></div>
+    <div class="alert red"><div class="alert-t">💰 GST Irregularities</div><div class="alert-stat">₹21,695 Cr</div><div class="alert-d">Weak monitoring, incomplete automation, compliance lapses in return filing.</div><div class="alert-src">CAG Report on GST, Dec 2025</div></div>
+    <div class="alert red"><div class="alert-t">🏗️ Dwarka Expressway</div><div class="alert-stat">₹18→₹250 Cr/km</div><div class="alert-d">1,400% cost blowup the ministry couldn't explain.</div><div class="alert-src">CAG Report on NHAI, 2025</div></div>
+    <div class="alert red"><div class="alert-t">🏠 Housing (PMAY) Failures</div><div class="alert-stat">Systemic</div><div class="alert-d">Time overruns, cost escalations. Deserving families excluded, ineligible ones included.</div><div class="alert-src">CAG Audit of PMAY, 2025</div></div>
+    <div class="alert red"><div class="alert-t">💸 DBT Without Checks</div><div class="alert-stat">₹1000s Cr</div><div class="alert-d">Thousands of crores flowing without mandatory verification. Pensions paid to dead people.</div><div class="alert-src">CAG Head, Dec 2025</div></div>
+    <div class="alert red"><div class="alert-t">👨‍⚕️ Doctor/Teacher Absenteeism</div><div class="alert-stat">~40%</div><div class="alert-d">Surprise checks: ~40% of govt doctors and teachers absent in UP, Bihar. You pay them.</div><div class="alert-src">World Bank Studies</div></div>
+    <div class="alert red"><div class="alert-t">📉 CPI Below Global Average</div><div class="alert-stat">39/100</div><div class="alert-d">India 39 vs global avg 43. Ranked 91st of 182. Behind China (43), Bhutan (71).</div><div class="alert-src">Transparency International 2025</div></div>
+  `;
+
+                // GETTING BETTER
+                document.getElementById("better").innerHTML = `
+    <div class="alert green"><div class="alert-t">💸 DBT Saved ₹3.48 Lakh Crore</div><div class="alert-stat">₹3.48L Cr</div><div class="alert-d">Eliminated ghost beneficiaries. 90M fake IDs removed via Aadhaar since 2013.</div><div class="alert-src">BlueKraft/MoF Assessment, 2024</div></div>
+    <div class="alert green"><div class="alert-t">📱 176 Cr Beneficiaries Covered</div><div class="alert-stat">11→176 Cr</div><div class="alert-d">DBT coverage surged 16x. JAM trinity: real money to real bank accounts.</div><div class="alert-src">DBT Bharat Portal, 2024</div></div>
+    <div class="alert green"><div class="alert-t">🍚 PDS Leakage Down</div><div class="alert-stat">46.7%→~10%</div><div class="alert-d">Aadhaar-linked ration cards saved ₹1.85 lakh crore in food subsidy.</div><div class="alert-src">Planning Commission / BlueKraft</div></div>
+    <div class="alert green"><div class="alert-t">📊 Welfare Efficiency Tripled</div><div class="alert-stat">0.32→0.91</div><div class="alert-d">Welfare Efficiency Index: 0.32 (2014) to 0.91 (2023).</div><div class="alert-src">BlueKraft WEI, 2024</div></div>
+    <div class="alert green"><div class="alert-t">📉 Subsidy Waste Halved</div><div class="alert-stat">16%→9%</div><div class="alert-d">Spending share down while coverage up massively.</div><div class="alert-src">Union Budget / MoF, 2024</div></div>
+    <div class="alert green"><div class="alert-t">🏛️ 16th FC Rewards Efficiency</div><div class="alert-stat">GDP Criterion</div><div class="alert-d">First time state GDP (10% weight) is a devolution criterion.</div><div class="alert-src">16th Finance Commission, 2026</div></div>
+    <div class="alert green"><div class="alert-t">📈 CPI Trending Up</div><div class="alert-stat">36→39</div><div class="alert-d">Improved 5 ranks in one year (96th→91st). Slow, but positive.</div><div class="alert-src">Transparency International, 2025</div></div>
+    <div class="alert green"><div class="alert-t">🔍 CAG Is Catching Them</div><div class="alert-stat">Active</div><div class="alert-d">The "worse" column exists because audits work. The system is auditing itself.</div><div class="alert-src">CAG Reports, Parliament, Dec 2025</div></div>
+  `;
+
+                // STATES
+                window.renderStates = function (tab) {
+                    let list = [];
+                    const userState = ST.find((s) => s.c === code);
+                    if (tab === "all") {
+                        const byShare = [...ST]
+                            .sort((a, b) => b.sh - a.sh)
+                            .slice(0, 6);
+                        const byVM = [...ST]
+                            .sort((a, b) => b.vm - a.vm)
+                            .slice(0, 3);
+                        list = [userState, ...byShare, ...byVM];
+                    } else if (tab === "takers") {
+                        list = [...ST]
+                            .sort((a, b) => b.sh - a.sh)
+                            .filter((s) => s.vm < 2)
+                            .slice(0, 10);
+                        if (!list.find((s) => s.c === code))
+                            list.unshift(userState);
+                    } else {
+                        list = [...ST].sort((a, b) => b.vm - a.vm).slice(0, 10);
+                        if (!list.find((s) => s.c === code))
+                            list.unshift(userState);
+                    }
+                    const seen = new Set();
+                    list = list.filter((s) => {
+                        if (seen.has(s.c)) return false;
+                        seen.add(s.c);
+                        return true;
+                    });
+
+                    document.getElementById("sg").innerHTML = list
+                        .map((s) => {
+                            const m = (redist * s.sh) / 100;
+                            const t =
+                                s.g === "High" || s.g === "Good"
+                                    ? "good"
+                                    : s.g === "Low"
+                                      ? "bad"
+                                      : "mid";
+                            const isUser = s.c === code;
+                            const moneyIn = isUser ? m + sgst : m;
+                            const created = moneyIn * s.vm;
+                            const leaked = (moneyIn * s.pds) / 100;
+                            const net = created - leaked;
+                            const leakPct = Math.round(
+                                (leaked / created) * 100,
+                            );
+                            const keptPct = 100 - leakPct;
+                            const netColor =
+                                net > moneyIn ? "var(--green)" : "var(--red)";
+                            return `<div class="sc ${t}">
+        <div class="sc-top"><div class="sc-name">${s.n}${isUser ? '<span class="you-tag">You</span>' : ""}</div><div class="sc-badge">${s.sh}%</div></div>
+        <div style="font-size:12px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-top:2px">Net value from your ${fI(Math.round(moneyIn))}</div>
+        <div class="sc-net" style="color:${netColor}">${fI(Math.round(net))}</div>
+        <div class="sc-net-l">${(net / moneyIn).toFixed(1)}x return</div>
+        <div class="tri">
+          <div class="tri-c"><div class="tri-n" style="color:var(--t2)">${fI(Math.round(moneyIn))}</div><div class="tri-l">Paid</div></div>
+          <div class="tri-c"><div class="tri-n" style="color:var(--green)">${fI(Math.round(created))}</div><div class="tri-l">Created</div></div>
+          <div class="tri-c"><div class="tri-n" style="color:var(--red)">\u2212${fI(Math.round(leaked))}</div><div class="tri-l">Leaked</div></div>
+        </div>
+        <div class="leak-bar"><div class="kept" style="width:${keptPct}%"></div><div class="lost" style="width:${leakPct}%"></div></div>
+        <div class="leak-legend"><span style="color:var(--green)">${keptPct}% kept</span><span style="color:var(--red)">${leakPct}% leaked</span></div>
+        <div class="sc-row"><span class="sc-rl">Governance</span><span class="sc-rv ${t === "good" ? "g" : t === "bad" ? "r" : "y"}">${s.g}</span></div>
+        <div class="sc-row"><span class="sc-rl">PDS Leakage</span><span class="sc-rv ${s.pds < 10 ? "g" : s.pds < 25 ? "y" : "r"}">${s.pds}%</span></div>
+        <div class="sc-row"><span class="sc-rl">Absenteeism</span><span class="sc-rv ${s.abs < 20 ? "g" : s.abs < 30 ? "y" : "r"}">${s.abs}%</span></div>
+      </div>`;
+                        })
+                        .join("");
+                    document
+                        .querySelectorAll(".tab")
+                        .forEach((b) => b.classList.remove("active"));
+                    document
+                        .querySelector(`.tab[data-t="${tab}"]`)
+                        ?.classList.add("active");
+                };
+                document.getElementById("stTabs").innerHTML =
+                    `<button class="tab active" data-t="all" onclick="renderStates('all')">Overview</button><button class="tab" data-t="takers" onclick="renderStates('takers')">🔴 Biggest Takers</button><button class="tab" data-t="creators" onclick="renderStates('creators')">🟢 Value Creators</button>`;
+                renderStates("all");
+
+                // CPI
+                const barMax = 120; // max bar height in px
+                document.getElementById("cpi").innerHTML =
+                    cpiData
+                        .map((d) => {
+                            const h = Math.round((d.s / 50) * barMax);
+                            const col =
+                                d.s >= 40
+                                    ? "var(--blue)"
+                                    : "rgba(92,154,255,.6)";
+                            return `<div class="ch-bg"><div class="ch-b" style="height:${h}px;background:${col}"><div class="tip" style="color:var(--blue)">${d.s}</div></div><div class="ch-l">'${String(d.y).slice(2)}</div></div>`;
+                        })
+                        .join("") +
+                    `<div style="position:absolute;bottom:${20 + Math.round((43 / 50) * barMax)}px;left:0;right:0;border-top:1px dashed rgba(255,255,255,.1);pointer-events:none"><span style="position:absolute;right:0;top:-14px;font-size:11px;color:var(--t3)">Global Avg 43</span></div>`;
+
+                // CTA
+                const stateShareMsg = `My state ${us.n} creates ${us.vm}x value per tax rupee received.\nBihar creates 0.8x. Karnataka creates 6.4x.\n\nSee where YOUR money goes → #EndCorruption2030`;
+
+                document.getElementById("cta").innerHTML = `
+    <div class="cta-big">${corruptDays} → 0 days</div>
+    <div class="cta-h">That's the goal. AI + open data can get us there by 2030.</div>
+    <div class="cta-p">DBT saved ₹3.48L Cr. PDS leakage dropped from 47% to ~10%. But CAG just found billions in new fraud. Change needs your pressure.</div>
+    <div class="chips">
+      <div class="chip">📋 File RTI</div>
+      <div class="chip">🗳️ Vote on Records</div>
+      <div class="chip">📊 PFMS.nic.in</div>
+      <div class="chip">📱 DBT Bharat</div>
+      <div class="chip">🔍 Read CAG Reports</div>
+    </div>
+    <div class="share-strip" style="margin-top:14px">
+      <button class="share-btn primary" onclick="shareText(\`${stateShareMsg.replace(/`/g, "'")}\`)">📤 Share State Comparison</button>
+      <a class="share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(stateShareMsg)}" target="_blank">𝕏 Post</a>
+      <a class="share-btn" href="https://wa.me/?text=${encodeURIComponent(stateShareMsg)}" target="_blank">💬 WhatsApp</a>
+    </div>
+  `;
+
+                document
+                    .getElementById("R")
+                    .scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+
+            window.addEventListener("load", () => setTimeout(calc, 300));
+        </script>
+    </body>
+</html>
