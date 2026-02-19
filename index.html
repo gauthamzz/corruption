@@ -270,7 +270,6 @@
             }
             #R.show {
                 display: block;
-                animation: up 0.5s ease both;
             }
 
             /* Bigcard */
@@ -429,7 +428,7 @@
 
             /* Sections */
             .sec {
-                margin-bottom: 40px;
+                margin-bottom: 64px;
             }
             .sec-bar {
                 display: flex;
@@ -470,7 +469,7 @@
             .sec-p {
                 font-size: 13px;
                 color: var(--t3);
-                margin-bottom: 14px;
+                margin-bottom: 20px;
                 max-width: 520px;
                 line-height: 1.6;
             }
@@ -1194,6 +1193,45 @@
                 border-radius: 0;
                 z-index: -1;
             }
+
+            /* Scroll reveal */
+            .reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 0.6s ease, transform 0.6s ease;
+            }
+            .reveal.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .reveal-child {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.5s ease, transform 0.5s ease;
+                transition-delay: calc(var(--i, 0) * 0.08s);
+            }
+            .reveal.visible .reveal-child {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Card hover */
+            .alert,
+            .sc {
+                transition: transform 0.25s ease, border-color 0.25s ease,
+                    box-shadow 0.25s ease;
+            }
+            .alert:hover,
+            .sc:hover {
+                transform: translateY(-2px);
+                border-color: var(--b2);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+            }
+
+            /* CPI bar animation */
+            .ch-b {
+                transition: height 0.6s ease;
+            }
         </style>
     </head>
     <body>
@@ -1261,9 +1299,9 @@
 
                 <!-- RESULTS -->
                 <div id="R">
-                    <div class="bigcard" id="big"></div>
+                    <div class="bigcard reveal" id="big"></div>
 
-                    <div class="sec">
+                    <div class="sec reveal">
                         <div class="sec-bar">
                             <div class="sec-dot red"></div>
                             <div class="sec-tag">Getting Worse</div>
@@ -1278,7 +1316,7 @@
                         <div class="two" id="worse"></div>
                     </div>
 
-                    <div class="sec">
+                    <div class="sec reveal">
                         <div class="sec-bar">
                             <div class="sec-dot green"></div>
                             <div class="sec-tag">Getting Better</div>
@@ -1293,7 +1331,7 @@
                         <div class="two" id="better"></div>
                     </div>
 
-                    <div class="sec">
+                    <div class="sec reveal">
                         <div class="sec-bar">
                             <div class="sec-dot amber"></div>
                             <div class="sec-tag">Where Your Money Lands</div>
@@ -1322,7 +1360,7 @@
                         </div>
                     </div>
 
-                    <div class="sec">
+                    <div class="sec reveal">
                         <div class="sec-bar">
                             <div class="sec-dot blue"></div>
                             <div class="sec-tag">The Trend</div>
@@ -1367,38 +1405,32 @@
                         </div>
                     </div>
 
-                    <div class="cta" id="cta"></div>
+                    <div class="cta reveal" id="cta"></div>
 
                     <!-- MOVEMENT -->
-                    <div class="movement">
+                    <div class="movement reveal">
                         <div class="flag" style="margin-bottom: 20px"></div>
                         <div class="mv-year">2030</div>
                         <div class="mv-goal">
                             Make corruption satisfyingly visible.
                         </div>
                         <p class="mv-sm">
-                            This dashboard was built by talking to an AI. No dev
-                            team, no funding, no months of work. Just public
-                            data and a conversation. AI can find every ghost
-                            beneficiary, flag every inflated contract, and audit
-                            every transaction. The technology exists. What's
-                            missing is pressure.
+                            Built by talking to AI — no dev team, no funding.
+                            Just public data and a conversation. The tech to
+                            audit every transaction exists. What's missing is
+                            pressure.
                         </p>
 
                         <div class="mv-box">
                             <strong
-                                >⚖️ This is about governance, not
-                                parties.</strong
+                                >⚖️ Governance, not parties.</strong
                             >
-                            No party, no ideology. Every government has wins and
-                            failures — we show both.<br />
-                            Every number is from a government audit (CAG), a
-                            constitutional body (Finance Commission), or an
-                            international index (Transparency International).<br /><br />
-                            <strong>🌍 This is an open-source movement.</strong>
-                            Anyone can build one for their country. Tell your AI
-                            agent to make a corruption dashboard using your
-                            country's public audit data. The code is free. The
+                            Every government has wins and failures — we show
+                            both. Every number comes from CAG audits, Finance
+                            Commission, or Transparency
+                            International.<br /><br />
+                            <strong>🌍 Open-source movement.</strong> Anyone can
+                            build one for their country. The code is free. The
                             data is public.
                         </div>
 
@@ -1406,9 +1438,7 @@
                             <strong style="color: var(--t1)"
                                 >We want every country to have one.</strong
                             >
-                            Take this code, find your country's audit data, and
-                            show citizens where their money goes. Fork it.
-                            Improve it. Translate it.
+                            Fork it. Improve it. Translate it.
                         </p>
 
                         <div class="country-chips">
@@ -1437,7 +1467,7 @@
                     </div>
 
                     <!-- SOURCES -->
-                    <div class="sources">
+                    <div class="sources reveal">
                         <div class="src-h">
                             All Data Sources — Verify Everything
                         </div>
@@ -1586,7 +1616,12 @@
 
                     <div class="footer">
                         Built with public data, AI, and impatience. Nothing
-                        stored. · <a href="https://github.com/gauthamzz/corruption" target="_blank">Fork on GitHub</a><br />
+                        stored. ·
+                        <a
+                            href="https://github.com/gauthamzz/corruption"
+                            target="_blank"
+                            >Fork on GitHub</a
+                        ><br />
                         Or make your AI agent build one —
                         <a
                             href="https://github.com/anthropics/anthropic-cookbook"
@@ -1937,7 +1972,7 @@
                 }
             }
 
-            function calc() {
+            function calc(autoRun) {
                 const code = document.getElementById("iS").value;
                 const inc = +document.getElementById("iI").value || 50000;
                 const sp = +document.getElementById("iP").value || 35000;
@@ -1978,40 +2013,44 @@
 
                 document.getElementById("big").innerHTML = `
     <div class="bc-eye">Corruption ate this much of your working life</div>
-    <div class="bc-big">${corruptDays} day${corruptDays !== 1 ? "s" : ""}</div>
+    <div class="bc-big" data-count="${corruptDays}">0 day${corruptDays !== 1 ? "s" : ""}</div>
     <div class="bc-unit">every year · ${lifetimeDays} days until you retire</div>
-    <div class="bc-desc">You pay <strong>${fI(totalTax)}/year</strong> in taxes. That builds India. But roughly <strong>${fI(corruptedYr)}/year</strong> of what gets redistributed is lost to corruption, ghost beneficiaries, and leakage. That's ${corruptDays} working days — every year — going into someone's pocket.</div>
+    <div class="bc-desc">You pay <strong>${fI(totalTax)}/year</strong> in taxes. Roughly <strong>${fI(corruptedYr)}/year</strong> of what gets redistributed vanishes into leakage. That's ${corruptDays} working days — every year.</div>
     <div class="stat-row">
       <div class="stat a"><div class="n">${fI(totalTax)}</div><div class="l">Total Tax/Yr</div></div>
       <div class="stat p"><div class="n">${fI(itax)}</div><div class="l">Income Tax/Yr</div></div>
       <div class="stat r"><div class="n">${fI(corruptedYr)}</div><div class="l">Est. Corrupted/Yr</div></div>
       <div class="stat r"><div class="n">${fS(lifetimeCorrupted)}</div><div class="l">Lifetime Loss</div></div>
     </div>
-    <div style="margin-top:14px;font-size:11px;color:var(--t3);line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto">⚠️ These are estimates based on a ~20% leakage rate on redistributed funds, derived from CAG audits, World Bank studies, and PDS data. Real leakage varies by scheme and state. The exact number matters less than the direction — your money IS being lost. All sources linked below.</div>
+    <div style="margin-top:14px;font-size:11px;color:var(--t3);line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto">⚠️ Estimates based on ~20% leakage rate (CAG, World Bank, PDS data). Varies by scheme and state. All sources below.</div>
   `;
+                // CountUp on recalc
+                var bcBig = document.querySelector(".bc-big[data-count]");
+                if (bcBig && document.getElementById("big").classList.contains("visible"))
+                    countUp(bcBig, parseInt(bcBig.dataset.count));
 
                 // GETTING WORSE
                 document.getElementById("worse").innerHTML = `
-    <div class="alert red"><div class="alert-t">🏥 Ghost Patients — Ayushman Bharat</div><div class="alert-stat">7.49 Lakh</div><div class="alert-d">Fake beneficiaries under phone number 9999999999. A doctor arrested for unnecessary heart surgeries to siphon funds.</div><div class="alert-src">CAG Audit of AB-PMJAY, Dec 2025</div></div>
-    <div class="alert red"><div class="alert-t">🎓 PMKVY Skill Training Fraud</div><div class="alert-stat">94–95%</div><div class="alert-d">Of audited beneficiaries had fake bank accounts. 1 Cr candidates shared same email/phone.</div><div class="alert-src">CAG Report on PMKVY, Dec 2025</div></div>
-    <div class="alert red"><div class="alert-t">💰 GST Irregularities</div><div class="alert-stat">₹21,695 Cr</div><div class="alert-d">Weak monitoring, incomplete automation, compliance lapses in return filing.</div><div class="alert-src">CAG Report on GST, Dec 2025</div></div>
-    <div class="alert red"><div class="alert-t">🏗️ Dwarka Expressway</div><div class="alert-stat">₹18→₹250 Cr/km</div><div class="alert-d">1,400% cost blowup the ministry couldn't explain.</div><div class="alert-src">CAG Report on NHAI, 2025</div></div>
-    <div class="alert red"><div class="alert-t">🏠 Housing (PMAY) Failures</div><div class="alert-stat">Systemic</div><div class="alert-d">Time overruns, cost escalations. Deserving families excluded, ineligible ones included.</div><div class="alert-src">CAG Audit of PMAY, 2025</div></div>
-    <div class="alert red"><div class="alert-t">💸 DBT Without Checks</div><div class="alert-stat">₹1000s Cr</div><div class="alert-d">Thousands of crores flowing without mandatory verification. Pensions paid to dead people.</div><div class="alert-src">CAG Head, Dec 2025</div></div>
-    <div class="alert red"><div class="alert-t">👨‍⚕️ Doctor/Teacher Absenteeism</div><div class="alert-stat">~40%</div><div class="alert-d">Surprise checks: ~40% of govt doctors and teachers absent in UP, Bihar. You pay them.</div><div class="alert-src">World Bank Studies</div></div>
-    <div class="alert red"><div class="alert-t">📉 CPI Below Global Average</div><div class="alert-stat">39/100</div><div class="alert-d">India 39 vs global avg 43. Ranked 91st of 182. Behind China (43), Bhutan (71).</div><div class="alert-src">Transparency International 2025</div></div>
+    <div class="alert red reveal-child" style="--i:0"><div class="alert-t">🏥 Ghost Patients — Ayushman Bharat</div><div class="alert-stat">7.49 Lakh</div><div class="alert-d">Fake beneficiaries registered under a single phone number.</div><div class="alert-src">CAG Audit of AB-PMJAY, Dec 2025</div></div>
+    <div class="alert red reveal-child" style="--i:1"><div class="alert-t">🎓 PMKVY Skill Training Fraud</div><div class="alert-stat">94–95%</div><div class="alert-d">Of audited beneficiaries had fake bank accounts.</div><div class="alert-src">CAG Report on PMKVY, Dec 2025</div></div>
+    <div class="alert red reveal-child" style="--i:2"><div class="alert-t">💰 GST Irregularities</div><div class="alert-stat">₹21,695 Cr</div><div class="alert-d">Weak monitoring and compliance lapses in return filing.</div><div class="alert-src">CAG Report on GST, Dec 2025</div></div>
+    <div class="alert red reveal-child" style="--i:3"><div class="alert-t">🏗️ Dwarka Expressway</div><div class="alert-stat">₹18→₹250 Cr/km</div><div class="alert-d">1,400% cost blowup the ministry couldn't explain.</div><div class="alert-src">CAG Report on NHAI, 2025</div></div>
+    <div class="alert red reveal-child" style="--i:4"><div class="alert-t">🏠 Housing (PMAY) Failures</div><div class="alert-stat">Systemic</div><div class="alert-d">Deserving families excluded, ineligible ones included.</div><div class="alert-src">CAG Audit of PMAY, 2025</div></div>
+    <div class="alert red reveal-child" style="--i:5"><div class="alert-t">💸 DBT Without Checks</div><div class="alert-stat">₹1000s Cr</div><div class="alert-d">Thousands of crores sent without mandatory verification.</div><div class="alert-src">CAG Head, Dec 2025</div></div>
+    <div class="alert red reveal-child" style="--i:6"><div class="alert-t">👨‍⚕️ Doctor/Teacher Absenteeism</div><div class="alert-stat">~40%</div><div class="alert-d">~40% of govt doctors and teachers absent in surprise checks.</div><div class="alert-src">World Bank Studies</div></div>
+    <div class="alert red reveal-child" style="--i:7"><div class="alert-t">📉 CPI Below Global Average</div><div class="alert-stat">39/100</div><div class="alert-d">India scores 39 vs global average 43. Ranked 91st of 182.</div><div class="alert-src">Transparency International 2025</div></div>
   `;
 
                 // GETTING BETTER
                 document.getElementById("better").innerHTML = `
-    <div class="alert green"><div class="alert-t">💸 DBT Saved ₹3.48 Lakh Crore</div><div class="alert-stat">₹3.48L Cr</div><div class="alert-d">Eliminated ghost beneficiaries. 90M fake IDs removed via Aadhaar since 2013.</div><div class="alert-src">BlueKraft/MoF Assessment, 2024</div></div>
-    <div class="alert green"><div class="alert-t">📱 176 Cr Beneficiaries Covered</div><div class="alert-stat">11→176 Cr</div><div class="alert-d">DBT coverage surged 16x. JAM trinity: real money to real bank accounts.</div><div class="alert-src">DBT Bharat Portal, 2024</div></div>
-    <div class="alert green"><div class="alert-t">🍚 PDS Leakage Down</div><div class="alert-stat">46.7%→~10%</div><div class="alert-d">Aadhaar-linked ration cards saved ₹1.85 lakh crore in food subsidy.</div><div class="alert-src">Planning Commission / BlueKraft</div></div>
-    <div class="alert green"><div class="alert-t">📊 Welfare Efficiency Tripled</div><div class="alert-stat">0.32→0.91</div><div class="alert-d">Welfare Efficiency Index: 0.32 (2014) to 0.91 (2023).</div><div class="alert-src">BlueKraft WEI, 2024</div></div>
-    <div class="alert green"><div class="alert-t">📉 Subsidy Waste Halved</div><div class="alert-stat">16%→9%</div><div class="alert-d">Spending share down while coverage up massively.</div><div class="alert-src">Union Budget / MoF, 2024</div></div>
-    <div class="alert green"><div class="alert-t">🏛️ 16th FC Rewards Efficiency</div><div class="alert-stat">GDP Criterion</div><div class="alert-d">First time state GDP (10% weight) is a devolution criterion.</div><div class="alert-src">16th Finance Commission, 2026</div></div>
-    <div class="alert green"><div class="alert-t">📈 CPI Trending Up</div><div class="alert-stat">36→39</div><div class="alert-d">Improved 5 ranks in one year (96th→91st). Slow, but positive.</div><div class="alert-src">Transparency International, 2025</div></div>
-    <div class="alert green"><div class="alert-t">🔍 CAG Is Catching Them</div><div class="alert-stat">Active</div><div class="alert-d">The "worse" column exists because audits work. The system is auditing itself.</div><div class="alert-src">CAG Reports, Parliament, Dec 2025</div></div>
+    <div class="alert green reveal-child" style="--i:0"><div class="alert-t">💸 DBT Saved ₹3.48 Lakh Crore</div><div class="alert-stat">₹3.48L Cr</div><div class="alert-d">90M ghost beneficiaries eliminated via Aadhaar since 2013.</div><div class="alert-src">BlueKraft/MoF Assessment, 2024</div></div>
+    <div class="alert green reveal-child" style="--i:1"><div class="alert-t">📱 176 Cr Beneficiaries Covered</div><div class="alert-stat">11→176 Cr</div><div class="alert-d">DBT coverage surged 16x via the JAM trinity.</div><div class="alert-src">DBT Bharat Portal, 2024</div></div>
+    <div class="alert green reveal-child" style="--i:2"><div class="alert-t">🍚 PDS Leakage Down</div><div class="alert-stat">46.7%→~10%</div><div class="alert-d">Aadhaar-linked ration saved ₹1.85L Cr in food subsidy.</div><div class="alert-src">Planning Commission / BlueKraft</div></div>
+    <div class="alert green reveal-child" style="--i:3"><div class="alert-t">📊 Welfare Efficiency Tripled</div><div class="alert-stat">0.32→0.91</div><div class="alert-d">Index tripled from 0.32 (2014) to 0.91 (2023).</div><div class="alert-src">BlueKraft WEI, 2024</div></div>
+    <div class="alert green reveal-child" style="--i:4"><div class="alert-t">📉 Subsidy Waste Halved</div><div class="alert-stat">16%→9%</div><div class="alert-d">Spending share down while coverage up massively.</div><div class="alert-src">Union Budget / MoF, 2024</div></div>
+    <div class="alert green reveal-child" style="--i:5"><div class="alert-t">🏛️ 16th FC Rewards Efficiency</div><div class="alert-stat">GDP Criterion</div><div class="alert-d">First time state GDP is a devolution criterion.</div><div class="alert-src">16th Finance Commission, 2026</div></div>
+    <div class="alert green reveal-child" style="--i:6"><div class="alert-t">📈 CPI Trending Up</div><div class="alert-stat">36→39</div><div class="alert-d">Improved 5 ranks in one year. Slow, but positive.</div><div class="alert-src">Transparency International, 2025</div></div>
+    <div class="alert green reveal-child" style="--i:7"><div class="alert-t">🔍 CAG Is Catching Them</div><div class="alert-stat">Active</div><div class="alert-d">The "worse" column exists because audits work.</div><div class="alert-src">CAG Reports, Parliament, Dec 2025</div></div>
   `;
 
                 // STATES
@@ -2046,7 +2085,7 @@
                     });
 
                     document.getElementById("sg").innerHTML = list
-                        .map((s) => {
+                        .map((s, i) => {
                             const m = (redist * s.sh) / 100;
                             const t =
                                 s.g === "High" || s.g === "Good"
@@ -2065,7 +2104,7 @@
                             const keptPct = 100 - leakPct;
                             const netColor =
                                 net > moneyIn ? "var(--green)" : "var(--red)";
-                            return `<div class="sc ${t}">
+                            return `<div class="sc ${t} reveal-child" style="--i:${i}">
         <div class="sc-top"><div class="sc-name">${s.n}${isUser ? '<span class="you-tag">You</span>' : ""}</div><div class="sc-badge">${s.sh}%</div></div>
         <div style="font-size:12px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-top:2px">Net value from your ${fI(Math.round(moneyIn))}</div>
         <div class="sc-net" style="color:${netColor}">${fI(Math.round(net))}</div>
@@ -2104,10 +2143,17 @@
                                 d.s >= 40
                                     ? "var(--blue)"
                                     : "rgba(92,154,255,.6)";
-                            return `<div class="ch-bg"><div class="ch-b" style="height:${h}px;background:${col}"><div class="tip" style="color:var(--blue)">${d.s}</div></div><div class="ch-l">'${String(d.y).slice(2)}</div></div>`;
+                            return `<div class="ch-bg"><div class="ch-b" style="height:0;background:${col}" data-h="${h}"><div class="tip" style="color:var(--blue)">${d.s}</div></div><div class="ch-l">'${String(d.y).slice(2)}</div></div>`;
                         })
                         .join("") +
                     `<div style="position:absolute;bottom:${20 + Math.round((43 / 50) * barMax)}px;left:0;right:0;border-top:1px dashed rgba(255,255,255,.1);pointer-events:none"><span style="position:absolute;right:0;top:-14px;font-size:11px;color:var(--t3)">Global Avg 43</span></div>`;
+                // Animate bars on recalc if already visible
+                var cpiSec = document.getElementById("cpi").closest(".sec");
+                if (cpiSec && cpiSec.classList.contains("visible")) {
+                    document.querySelectorAll(".ch-b[data-h]").forEach(function (bar) {
+                        setTimeout(function () { bar.style.height = bar.dataset.h + "px"; }, 100);
+                    });
+                }
 
                 // CTA
                 const stateShareMsg = `My state ${us.n} creates ${us.vm}x value per tax rupee received.\nBihar creates 0.8x. Karnataka creates 6.4x.\n\nSee where YOUR money goes → #EndCorruption2030`;
@@ -2130,12 +2176,69 @@
     </div>
   `;
 
-                document
-                    .getElementById("R")
-                    .scrollIntoView({ behavior: "smooth", block: "start" });
+                if (!autoRun)
+                    document
+                        .getElementById("R")
+                        .scrollIntoView({ behavior: "smooth", block: "start" });
             }
 
-            window.addEventListener("load", () => setTimeout(calc, 300));
+            // CountUp animation
+            function countUp(el, target, dur) {
+                dur = dur || 1500;
+                var start = performance.now();
+                var suffix = target === 1 ? " day" : " days";
+                el.textContent = "0" + suffix;
+                function tick(now) {
+                    var p = Math.min((now - start) / dur, 1);
+                    var eased = 1 - Math.pow(1 - p, 3);
+                    el.textContent = Math.round(eased * target) + suffix;
+                    if (p < 1) requestAnimationFrame(tick);
+                }
+                requestAnimationFrame(tick);
+            }
+
+            // Scroll-reveal observer
+            var revealObs = new IntersectionObserver(
+                function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                            // CPI bar growth
+                            entry.target
+                                .querySelectorAll(".ch-b[data-h]")
+                                .forEach(function (bar) {
+                                    setTimeout(function () {
+                                        bar.style.height =
+                                            bar.dataset.h + "px";
+                                    }, 100);
+                                });
+                            // Big number countUp
+                            var bigNum =
+                                entry.target.querySelector(
+                                    ".bc-big[data-count]",
+                                );
+                            if (bigNum)
+                                countUp(
+                                    bigNum,
+                                    parseInt(bigNum.dataset.count),
+                                );
+                            revealObs.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.15 },
+            );
+
+            function initReveal() {
+                document
+                    .querySelectorAll(".reveal")
+                    .forEach(function (el) {
+                        revealObs.observe(el);
+                    });
+            }
+            initReveal();
+
+            window.addEventListener("load", () => setTimeout(() => calc(true), 300));
         </script>
     </body>
 </html>
